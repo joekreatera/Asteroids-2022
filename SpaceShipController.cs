@@ -8,6 +8,8 @@ public class SpaceShipController : MonoBehaviour
     [Range(0.01f,10f)]
     public float turnMultiplier;
 
+    Vector3 lastDir;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +25,65 @@ public class SpaceShipController : MonoBehaviour
 
         Vector3 pos = this.gameObject.transform.position;
         Vector3 dir = this.gameObject.transform.TransformDirection(Vector3.forward);
-        pos += dir*Input.GetAxis("Vertical");
+        pos += dir*Mathf.Clamp( Input.GetAxis("Vertical"), 0, 1);
         this.gameObject.transform.position = pos;
+        lastDir = dir;
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if ( other.gameObject.tag.Equals("HorizontalWalls")  ) {
+            if (this.gameObject.transform.position.z > 0) {
+                if (lastDir.z > 0) {
+                    Vector3 pos = this.gameObject.transform.position;
+                    pos.z = -15.6f;
+                    this.gameObject.transform.position = pos;
+                }
+            }
+        }
+
+        if (other.gameObject.tag.Equals("HorizontalWalls"))
+        {
+            
+            if (this.gameObject.transform.position.z < 0)
+            {
+                if (lastDir.z < 0)
+                {
+                    Vector3 pos = this.gameObject.transform.position;
+                    pos.z = 15.6f;
+                    this.gameObject.transform.position = pos;
+                }
+            }
+        }
+
+
+        if (other.gameObject.tag.Equals("VerticalWalls"))
+        {
+
+            if (this.gameObject.transform.position.x > 0)
+            {
+                if (lastDir.x > 0)
+                {
+                    Vector3 pos = this.gameObject.transform.position;
+                    pos.x = -12f;
+                    this.gameObject.transform.position = pos;
+                }
+            }
+        }
+
+        if (other.gameObject.tag.Equals("VerticalWalls"))
+        {
+
+            if (this.gameObject.transform.position.x < 0)
+            {
+                if (lastDir.x < 0)
+                {
+                    Vector3 pos = this.gameObject.transform.position;
+                    pos.x = 12f;
+                    this.gameObject.transform.position = pos;
+                }
+            }
+        }
+
     }
 }
