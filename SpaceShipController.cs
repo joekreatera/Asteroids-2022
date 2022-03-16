@@ -25,7 +25,7 @@ public class SpaceShipController : MonoBehaviour
 
         Vector3 pos = this.gameObject.transform.position;
         Vector3 dir = this.gameObject.transform.TransformDirection(Vector3.forward);
-        pos += dir*Mathf.Clamp( Input.GetAxis("Vertical"), 0, 1);
+        pos += dir*Mathf.Clamp( Input.GetAxis("Vertical"), 0, 1)*0.3f;
         this.gameObject.transform.position = pos;
         lastDir = dir;
     }
